@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackyslashy", "Hackyslashy\Hackyslashy\Hackyslashy.csproj", "{983D7CCB-0975-4F88-8759-7F79191DEB5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackyslashyContent", "Hackyslashy\HackyslashyContent\HackyslashyContent.contentproj", "{3A383E0B-355D-44B6-8A6C-525395E1FBEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DAF1AED9-543E-479D-A83D-064D9B5FBA22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Windows Phone = Debug|Windows Phone
+		Release|Windows Phone = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{983D7CCB-0975-4F88-8759-7F79191DEB5D}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{983D7CCB-0975-4F88-8759-7F79191DEB5D}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{983D7CCB-0975-4F88-8759-7F79191DEB5D}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{983D7CCB-0975-4F88-8759-7F79191DEB5D}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{983D7CCB-0975-4F88-8759-7F79191DEB5D}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{983D7CCB-0975-4F88-8759-7F79191DEB5D}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{3A383E0B-355D-44B6-8A6C-525395E1FBEB}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{3A383E0B-355D-44B6-8A6C-525395E1FBEB}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
