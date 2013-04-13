@@ -38,6 +38,7 @@ namespace Hackyslashy
         String enemyRectangleString = "0";
         String heroRectangleString = "0";
         bool swingdir = true;
+        bool touched = false;
 
         List<Enemy> enemyList = new List<Enemy>();
         
@@ -67,6 +68,9 @@ namespace Hackyslashy
             mSprite = new Hero();
             sSprite = new Swordsprite();
             testSlime = new Slime(5);
+            addSlimes(5);
+
+
 
 
             base.Initialize();
@@ -85,7 +89,9 @@ namespace Hackyslashy
             // TODO: use this.Content to load your game content here
             mSprite.LoadContent(this.Content, "face");
             sSprite.LoadContent(this.Content, "sword");
-            testSlime.LoadContent(this.Content, "slime");
+            testSlime.LoadContent(this.Content);
+            loadEnemies();
+
 
             heroBounds = new Rectangle(
                 (int)(mSprite.getPosition().X - (mSprite.getWidth()/2)), 
@@ -136,10 +142,12 @@ namespace Hackyslashy
             sSprite.snapTo(mSprite.getPosition());
             testSlime.runTo(mSprite.getRoundedPosition());
 
+
+
             if (heroBounds.Intersects(enemyBounds))
             {
                 intersectString = "Intersection!";
-
+                touched = true;
             }
             else
             {
@@ -225,6 +233,37 @@ namespace Hackyslashy
         private void HandleResetTouch(TouchLocation touch)
         {
         }
+        private void addToEnemyList(Enemy enemy)
+        {
+            enemyList.Add(enemy);
+        }
+        private void addSlimes(int _ammount)
+        {
+            int ammount = _ammount;
+            while (ammount >= 0)
+            {
+                Enemy slime = new Slime(5);
+                addToEnemyList(slime);
+                ammount--;
+            }
+
+        }
+        private void loadEnemies()
+        {
+            foreach(Enemy enemy in enemyList){
+                enemy.LoadContent(this.Content);
+            }
+
+        }
+        private void drawEnemies()
+        {
+            foreach (Enemy enemy in enemyList)
+            {
+                enemy.Draw(this.spriteBatch);
+            }
+        }
+
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -239,7 +278,12 @@ namespace Hackyslashy
             spriteBatch.Begin();
             mSprite.Draw(this.spriteBatch);
             sSprite.Draw(this.spriteBatch);
-            testSlime.Draw(this.spriteBatch);
+            if (!touched)
+            {
+                testSlime.Draw(this.spriteBatch);
+            }
+            drawEnemies();
+            
             spriteBatch.DrawString(debugFont, debugString, new Vector2(10, 10), Color.Black);
             spriteBatch.DrawString(debugFont, intersectString, new Vector2(10, 30), Color.Black);
             spriteBatch.DrawString(debugFont, heroRectangleString, new Vector2(10, 50), Color.Black);

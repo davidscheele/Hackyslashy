@@ -5,9 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 public abstract class Enemy
 {
-    private Vector2 position = new Vector2(0, 0);
+    private Vector2 position = new Vector2(100, 100);
     private Texture2D spriteTexture;
     private int runSpeed;
+    private String assetName = "slime";
 
 	public Enemy()
 	{
@@ -15,9 +16,9 @@ public abstract class Enemy
 
 	}
 
-    public void LoadContent(ContentManager _contentManager, string _assetName)
+    public void LoadContent(ContentManager _contentManager)
     {
-        spriteTexture = _contentManager.Load<Texture2D>(_assetName);
+        spriteTexture = _contentManager.Load<Texture2D>(assetName);
     }
     public void Draw(SpriteBatch _spriteBatch)
     {
@@ -46,6 +47,10 @@ public abstract class Enemy
     public float getWidth()
     {
         return this.spriteTexture.Width;
+    }
+    public void setPosition(Vector2 _position)
+    {
+        this.position = _position;
     }
 
     public void runTo(Vector2 _destination)
