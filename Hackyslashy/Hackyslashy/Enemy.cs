@@ -7,6 +7,7 @@ public abstract class Enemy
 {
     private Vector2 position = new Vector2(100, 100);
     private Texture2D spriteTexture;
+
     private int runSpeed;
     private String assetName = "slime";
 

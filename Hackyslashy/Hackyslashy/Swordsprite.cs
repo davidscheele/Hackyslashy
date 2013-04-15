@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-public class Swordsprite
+public class Sword
 {
     private Vector2 position;
     private Vector2 origin;
@@ -12,7 +12,7 @@ public class Swordsprite
     private float acceleration = 0;
     private bool inSwing = false;
 
-	public Swordsprite()
+	public Sword()
 	{
         
 

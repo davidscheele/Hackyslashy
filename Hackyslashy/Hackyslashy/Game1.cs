@@ -23,13 +23,13 @@ namespace Hackyslashy
 
 
          // Sprites
-        Hero mSprite;
-        Swordsprite sSprite;
+        Hero heroSprite; //The Sprite controllable by the player
+        Sword swordSprite; //The Sprite connected to the hero sprite
 
-        Enemy testSlime;
+        Enemy testSlime; //A simple testsprite
 
-        Rectangle heroBounds;
-        Rectangle enemyBounds;
+        Rectangle heroBounds; //invisible boundaries around the hero
+        Rectangle enemyBounds; //invisible boundaries around the enemy
 
         SpriteFont debugFont;
         bool touching;
@@ -65,8 +65,8 @@ namespace Hackyslashy
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            mSprite = new Hero();
-            sSprite = new Swordsprite();
+            heroSprite = new Hero();
+            swordSprite = new Sword();
             testSlime = new Slime(5);
             addSlimes(5);
 
@@ -87,17 +87,17 @@ namespace Hackyslashy
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            mSprite.LoadContent(this.Content, "face");
-            sSprite.LoadContent(this.Content, "sword");
+            heroSprite.LoadContent(this.Content, "face");
+            swordSprite.LoadContent(this.Content, "sword");
             testSlime.LoadContent(this.Content);
             loadEnemies();
 
 
             heroBounds = new Rectangle(
-                (int)(mSprite.getPosition().X - (mSprite.getWidth()/2)), 
-                (int)(mSprite.getPosition().Y - (mSprite.getHeight()/2)), 
-                (int)(mSprite.getWidth()), 
-                (int)(mSprite.getHeight()));
+                (int)(heroSprite.getPosition().X - (heroSprite.getWidth()/2)), 
+                (int)(heroSprite.getPosition().Y - (heroSprite.getHeight()/2)), 
+                (int)(heroSprite.getWidth()), 
+                (int)(heroSprite.getHeight()));
             enemyBounds = new Rectangle(
                 (int)(testSlime.getPosition().X - (testSlime.getWidth() / 2)),
                 (int)(testSlime.getPosition().Y - (testSlime.getHeight() / 2)),
@@ -139,8 +139,8 @@ namespace Hackyslashy
                 GestureType.DoubleTap |
                 GestureType.Flick;
 
-            sSprite.snapTo(mSprite.getPosition());
-            testSlime.runTo(mSprite.getRoundedPosition());
+            swordSprite.snapTo(heroSprite.getPosition());
+            testSlime.runTo(heroSprite.getRoundedPosition());
 
 
 
@@ -157,16 +157,16 @@ namespace Hackyslashy
 
             foreach (Enemy _enemy in enemyList)
             {
-                _enemy.runTo(mSprite.getPosition());
+                _enemy.runTo(heroSprite.getPosition());
             }
 
             if (swingdir)
             {
-                sSprite.lswing();
+                swordSprite.lswing();
             }
             else
             {
-                sSprite.swing();
+                swordSprite.swing();
             }
 
             while (TouchPanel.IsGestureAvailable)
@@ -176,12 +176,12 @@ namespace Hackyslashy
                 switch (gesture.GestureType)
                 {
                     case(GestureType.DoubleTap):
-                        mSprite.jumpTo(gesture.Position);
+                        heroSprite.jumpTo(gesture.Position);
                         break;
                     
                     case(GestureType.Flick):
                         debugString = gesture.Delta.ToString();
-                        swingdir = sSprite.swingStart(gesture.Delta);
+                        swingdir = swordSprite.swingStart(gesture.Delta);
                         break;
                         
                 }
@@ -198,7 +198,7 @@ namespace Hackyslashy
             else if (touches.Count == 0)
             {
                 touching = false;
-                mSprite.clearRunDelay();
+                heroSprite.clearRunDelay();
             }
 
             if (touching)
@@ -226,8 +226,8 @@ namespace Hackyslashy
 
         private void HandleBoardTouch(TouchLocation touch)
         {
-            mSprite.runTo(touch.Position);
-            updateHeroBounds(mSprite.getTopPosition());
+            heroSprite.runTo(touch.Position);
+            updateHeroBounds(heroSprite.getTopPosition());
 
         }
         private void HandleResetTouch(TouchLocation touch)
@@ -276,12 +276,9 @@ namespace Hackyslashy
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
-            mSprite.Draw(this.spriteBatch);
-            sSprite.Draw(this.spriteBatch);
-            if (!touched)
-            {
-                testSlime.Draw(this.spriteBatch);
-            }
+            heroSprite.Draw(this.spriteBatch);
+            swordSprite.Draw(this.spriteBatch);
+            testSlime.Draw(this.spriteBatch);
             drawEnemies();
             
             spriteBatch.DrawString(debugFont, debugString, new Vector2(10, 10), Color.Black);
