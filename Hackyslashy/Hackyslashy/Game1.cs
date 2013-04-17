@@ -38,7 +38,6 @@ namespace Hackyslashy
         String enemyRectangleString = "0";
         String heroRectangleString = "0";
         bool swingdir = true;
-        bool touched = false;
 
         List<Enemy> enemyList = new List<Enemy>();
         
@@ -94,15 +93,15 @@ namespace Hackyslashy
 
 
             heroBounds = new Rectangle(
-                (int)(heroSprite.getPosition().X - (heroSprite.getWidth()/2)), 
-                (int)(heroSprite.getPosition().Y - (heroSprite.getHeight()/2)), 
-                (int)(heroSprite.getWidth()), 
-                (int)(heroSprite.getHeight()));
+                (int)(heroSprite.TopLeft.X), 
+                (int)(heroSprite.TopLeft.Y), 
+                (int)(heroSprite.Width), 
+                (int)(heroSprite.Height));
             enemyBounds = new Rectangle(
-                (int)(testSlime.getPosition().X - (testSlime.getWidth() / 2)),
-                (int)(testSlime.getPosition().Y - (testSlime.getHeight() / 2)),
-                (int)(testSlime.getWidth()),
-                (int)(testSlime.getHeight()));
+                (int)(testSlime.TopLeft.X),
+                (int)(testSlime.TopLeft.Y),
+                (int)(testSlime.Width),
+                (int)(testSlime.Height));
 
             debugFont = Content.Load<SpriteFont>("SpriteFont1");
 
@@ -130,34 +129,37 @@ namespace Hackyslashy
 
             // TODO: Add your update logic here
 
-            updateEnemyBounds(testSlime.getPosition());
-            enemyRectangleString = enemyBounds.ToString();
-            heroRectangleString = heroBounds.ToString();
+            updateEnemyBounds(testSlime.TopLeft);
+            intersectString = testSlime.Perc;
+            //enemyRectangleString = enemyBounds.ToString();
+            //heroRectangleString = heroBounds.ToString();
+            enemyRectangleString = testSlime.XPerc;
+            heroRectangleString = testSlime.YPerc;
+
 
             TouchPanel.EnabledGestures =
                 GestureType.Tap |
                 GestureType.DoubleTap |
                 GestureType.Flick;
 
-            swordSprite.snapTo(heroSprite.getPosition());
-            testSlime.runTo(heroSprite.getRoundedPosition());
+            swordSprite.snapTo(heroSprite.Center);
+            testSlime.runTo(heroSprite.Center);
 
 
 
-            if (heroBounds.Intersects(enemyBounds))
-            {
-                intersectString = "Intersection!";
-                touched = true;
-            }
-            else
-            {
-                intersectString = "No Intersection";
-            }
+            //if (heroBounds.Intersects(enemyBounds))
+            //{
+            //    intersectString = "Intersection!";
+            //}
+            //else
+            //{
+            //    intersectString = "No Intersection";
+            //}
 
 
             foreach (Enemy _enemy in enemyList)
             {
-                _enemy.runTo(heroSprite.getPosition());
+                _enemy.runTo(heroSprite.Center);
             }
 
             if (swingdir)
@@ -227,8 +229,7 @@ namespace Hackyslashy
         private void HandleBoardTouch(TouchLocation touch)
         {
             heroSprite.runTo(touch.Position);
-            updateHeroBounds(heroSprite.getTopPosition());
-
+            updateHeroBounds(heroSprite.Center);
         }
         private void HandleResetTouch(TouchLocation touch)
         {

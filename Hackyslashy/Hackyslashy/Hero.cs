@@ -6,7 +6,50 @@ using Microsoft.Xna.Framework.Graphics;
 public class Hero
 {
     private Vector2 position = new Vector2(200, 200);
-    private Texture2D mSpriteTexture;
+    public Vector2 Center
+    {
+        get
+        {
+            Vector2 _position = position;
+            _position.X = _position.X + (texture.Width / 2);
+            _position.Y = _position.Y + (texture.Height / 2);
+            return _position;
+        }
+    }
+    public Vector2 TopLeft
+    {
+        get
+        {
+            return position;
+        }
+    }
+
+    public Texture2D Texture
+    {
+        get
+        {
+            return texture;
+        }
+        set
+        {
+            texture = value;
+        }
+    }
+    private Texture2D texture;
+    public float Height
+    {
+        get
+        {
+            return this.texture.Height;
+        }
+    }
+    public float Width
+    {
+        get
+        {
+            return this.texture.Width;
+        }
+    }
     private int runSpeed = 10;
     private int runDelayCounter = 0;
 
@@ -18,42 +61,18 @@ public class Hero
 
     public void LoadContent(ContentManager theContentManager, string theAssetName)
     {
-        this.mSpriteTexture = theContentManager.Load<Texture2D>(theAssetName);
+        this.texture = theContentManager.Load<Texture2D>(theAssetName);
     }
     public void Draw(SpriteBatch theSpriteBatch)
     {
-        theSpriteBatch.Draw(mSpriteTexture, position, Color.White);
+        theSpriteBatch.Draw(texture, position, Color.White);
     }
-    public Vector2 getPosition()
-    {
-        Vector2 _position = this.position;
-        _position.X = _position.X + (this.mSpriteTexture.Width/2);
-        _position.Y = _position.Y + (this.mSpriteTexture.Height/2);
-        return _position;
-    }
-    public Vector2 getTopPosition()
-    {
-        return position;
-    }
-    public Vector2 getRoundedPosition()
-    {
-        Vector2 _position = position;
-        _position.X = (int)(_position.X + (mSpriteTexture.Width / 2));
-        _position.Y = (int)(_position.Y + (mSpriteTexture.Height / 2));
-        return _position;
-    }
+
     public void clearRunDelay()
     {
         this.runDelayCounter = 0;
     }
-    public float getHeight()
-    {
-        return this.mSpriteTexture.Height;
-    }
-    public float getWidth()
-    {
-        return this.mSpriteTexture.Width;
-    }
+
     public void runTo(Vector2 touchPosition)
     {
         if (this.runDelayCounter >= 5)

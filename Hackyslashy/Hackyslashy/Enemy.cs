@@ -6,11 +6,101 @@ using Microsoft.Xna.Framework.Graphics;
 public abstract class Enemy
 {
     private Vector2 position = new Vector2(100, 100);
-    private Texture2D spriteTexture;
+    public Vector2 Center
+    {
+        get
+        {
+            Vector2 _position = position;
+            _position.X = _position.X + (texture.Width / 2);
+            _position.Y = _position.Y + (texture.Height / 2);
+            return _position;
+        }
+    }
+    public Vector2 TopLeft
+    {
+        get
+        {
+            return position;
+        }
+    }
+    public float Height
+    {
+        get
+        {
+            return this.texture.Height;
+        }
+    }
+    public float Width
+    {
+        get
+        {
+            return this.texture.Width;
+        }
+    }
+
+    private Texture2D texture;
+    public Texture2D Texture
+    {
+        get
+        {
+            return texture;
+        }
+        set
+        {
+            texture = value;
+        }
+    }
 
     private int runSpeed;
-    private String assetName = "slime";
+    public int RunSpeed
+    {
+        get
+        {
+            return runSpeed;
+        }
+        set
+        {
+            runSpeed = value;
+        }
 
+    }
+    private String assetName = "";
+    public String AssetName
+    {
+        get
+        {
+            return assetName;
+        }
+        set
+        {
+            assetName = value;
+        }
+    }
+
+    private float xPerc = 0;
+    public String XPerc
+    {
+        get
+        {
+            return xPerc.ToString();
+        }
+    }
+    private float yPerc = 0;
+    public String YPerc
+    {
+        get
+        {
+            return yPerc.ToString();
+        }
+    }
+    public String Perc
+    {
+        get
+        {
+            float _perc = yPerc + xPerc;
+            return _perc.ToString();
+        }
+    }
 	public Enemy()
 	{
         
@@ -19,70 +109,49 @@ public abstract class Enemy
 
     public void LoadContent(ContentManager _contentManager)
     {
-        spriteTexture = _contentManager.Load<Texture2D>(assetName);
+        texture = _contentManager.Load<Texture2D>(assetName);
     }
     public void Draw(SpriteBatch _spriteBatch)
     {
-        _spriteBatch.Draw(spriteTexture, position, Color.White);
-    }
-    public Vector2 getPosition()
-    {
-        Vector2 _position = position;
-        _position.X = _position.X + (spriteTexture.Width/2);
-        _position.Y = _position.Y + (spriteTexture.Height/2);
-        return _position;
+        _spriteBatch.Draw(texture, position, Color.White);
     }
 
-    public Vector2 getTopPosition()
-    {
-        return position;
-    }
-    public void setRunSpeed(int _speed)
-    {
-        runSpeed = _speed;
-    }
-    public float getHeight()
-    {
-        return this.spriteTexture.Height;
-    }
-    public float getWidth()
-    {
-        return this.spriteTexture.Width;
-    }
-    public void setPosition(Vector2 _position)
+    public void setPosition(Vector2 _position) //sets the upper left corner to the given value.
     {
         this.position = _position;
     }
 
-    public void runTo(Vector2 _destination)
+    public void runTo(Vector2 _destination) //lets enemy advance towards the given value. enemy will run the same speed in any direction.
     {
             float xPercentage = calculateXPercentage(_destination);
             float yPercentage = 1 - xPercentage;
+            xPerc = xPercentage;
+            yPerc = yPercentage;
 
-            if (position.X + (spriteTexture.Width / 2) > _destination.X)
+            if (this.Center.X > _destination.X)
             {
-                position.X = position.X - runSpeed * xPercentage;
+                position.X = position.X - (runSpeed * xPercentage);
             }
-            if (position.X + (spriteTexture.Width / 2) < _destination.X)
+            if (this.Center.X < _destination.X)
             {
-                position.X = position.X + runSpeed * xPercentage;
+                position.X = position.X + (runSpeed * xPercentage);
             }
-            if (position.Y + (spriteTexture.Height / 2) > _destination.Y)
+            if (this.Center.Y > _destination.Y)
             {
-                position.Y = position.Y - runSpeed * yPercentage;
+                position.Y = position.Y - (runSpeed * yPercentage);
             }
-            if (position.Y + (spriteTexture.Height / 2) < _destination.Y)
+            if (this.Center.Y < _destination.Y)
             {
-                position.Y = position.Y + runSpeed * yPercentage;
+                position.Y = position.Y + (runSpeed * yPercentage);
             }
     }
-    public void jumpTo(Vector2 _destination)
+    public void jumpTo(Vector2 _destination) //lets enemy hop to the point of the given value.
     {
-        position.X = _destination.X - (spriteTexture.Width / 2);
-        position.Y = _destination.Y - (spriteTexture.Height / 2);
+        position.X = _destination.X - (texture.Width / 2);
+        position.Y = _destination.Y - (texture.Height / 2);
     }
 
-    private float calculateXPercentage(Vector2 _destination)
+    private float calculateXPercentage(Vector2 _destination) //calculates how much percentage of the rectangle from given value to position of enemy is x. is needed for the run command.
     {
 
         double xPerc = 0;
@@ -91,21 +160,21 @@ public abstract class Enemy
         double fullRel;
 
 
-        if (position.X + 25 > _destination.X)
+        if (this.Center.X > _destination.X)
         {
-            xRel = position.X + 25 - _destination.X;
+            xRel = this.Center.X - _destination.X;
         }
-        if (position.X + 25 < _destination.X)
+        if (this.Center.X < _destination.X)
         {
-            xRel = _destination.X - position.X + 25;
+            xRel = _destination.X - this.Center.X;
         }
-        if (position.Y + 25 > _destination.Y)
+        if (this.Center.Y > _destination.Y)
         {
-            yRel = position.Y + 25 - _destination.Y;
+            yRel = this.Center.Y - _destination.Y;
         }
-        if (position.Y + 25 < _destination.Y)
+        if (this.Center.Y < _destination.Y)
         {
-            yRel = _destination.Y - position.Y + 25;
+            yRel = _destination.Y - this.Center.Y;
         }
 
         fullRel = xRel + yRel;

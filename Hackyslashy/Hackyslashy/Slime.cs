@@ -10,9 +10,8 @@ public class Slime : Enemy
 
 	public Slime(int _speed)
 	{
-        this.setRunSpeed(_speed);
-
-
+        this.RunSpeed = _speed;
+        this.AssetName = "slime";
 	}
 
     
