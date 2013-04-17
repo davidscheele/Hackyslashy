@@ -8,9 +8,11 @@ public class Slime : Enemy
     
 
 
-	public Slime(int _speed)
+	public Slime()
 	{
-        this.RunSpeed = _speed;
+        this.TopLeft = this.PositionRandomization;
+        this.StartPosition = this.TopLeft;
+        this.RunSpeed = 4;
         this.AssetName = "slime";
 	}
 

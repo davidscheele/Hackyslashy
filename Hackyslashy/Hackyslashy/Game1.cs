@@ -27,6 +27,7 @@ namespace Hackyslashy
         Sword swordSprite; //The Sprite connected to the hero sprite
 
         Enemy testSlime; //A simple testsprite
+        Enemy bigTestSlime; //A simply testsprite
 
         Rectangle heroBounds; //invisible boundaries around the hero
         Rectangle enemyBounds; //invisible boundaries around the enemy
@@ -66,8 +67,9 @@ namespace Hackyslashy
             // TODO: Add your initialization logic here
             heroSprite = new Hero();
             swordSprite = new Sword();
-            testSlime = new Slime(5);
-            addSlimes(5);
+            testSlime = new Slime();
+            bigTestSlime = new BigSlime(2);
+            //addSlimes(5);
 
 
 
@@ -89,6 +91,7 @@ namespace Hackyslashy
             heroSprite.LoadContent(this.Content, "face");
             swordSprite.LoadContent(this.Content, "sword");
             testSlime.LoadContent(this.Content);
+            bigTestSlime.LoadContent(this.Content);
             loadEnemies();
 
 
@@ -130,11 +133,9 @@ namespace Hackyslashy
             // TODO: Add your update logic here
 
             updateEnemyBounds(testSlime.TopLeft);
-            intersectString = testSlime.Perc;
-            //enemyRectangleString = enemyBounds.ToString();
-            //heroRectangleString = heroBounds.ToString();
-            enemyRectangleString = testSlime.XPerc;
-            heroRectangleString = testSlime.YPerc;
+            enemyRectangleString = enemyBounds.ToString();
+            heroRectangleString = heroBounds.ToString();
+
 
 
             TouchPanel.EnabledGestures =
@@ -144,17 +145,18 @@ namespace Hackyslashy
 
             swordSprite.snapTo(heroSprite.Center);
             testSlime.runTo(heroSprite.Center);
+            bigTestSlime.runTo(heroSprite.Center);
+            runEnemies();
 
 
-
-            //if (heroBounds.Intersects(enemyBounds))
-            //{
-            //    intersectString = "Intersection!";
-            //}
-            //else
-            //{
-            //    intersectString = "No Intersection";
-            //}
+            if (heroBounds.Intersects(enemyBounds))
+            {
+                intersectString = "Intersection!";
+            }
+            else
+            {
+                intersectString = "No Intersection";
+            }
 
 
             foreach (Enemy _enemy in enemyList)
@@ -213,6 +215,9 @@ namespace Hackyslashy
 
             base.Update(gameTime);
         }
+
+
+
         private void updateHeroBounds(Vector2 _position)
         {
             heroBounds.X = (int)_position.X;
@@ -243,7 +248,7 @@ namespace Hackyslashy
             int ammount = _ammount;
             while (ammount >= 0)
             {
-                Enemy slime = new Slime(5);
+                Enemy slime = new Slime();
                 addToEnemyList(slime);
                 ammount--;
             }
@@ -263,6 +268,13 @@ namespace Hackyslashy
                 enemy.Draw(this.spriteBatch);
             }
         }
+        private void runEnemies()
+        {
+            foreach (Enemy enemy in enemyList)
+            {
+                enemy.runTo(heroSprite.Center);
+            }
+        }
 
 
 
@@ -280,6 +292,7 @@ namespace Hackyslashy
             heroSprite.Draw(this.spriteBatch);
             swordSprite.Draw(this.spriteBatch);
             testSlime.Draw(this.spriteBatch);
+            bigTestSlime.Draw(this.spriteBatch);
             drawEnemies();
             
             spriteBatch.DrawString(debugFont, debugString, new Vector2(10, 10), Color.Black);

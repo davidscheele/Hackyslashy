@@ -64,6 +64,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigSlime.cs" />
     <Compile Include="Slime.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Hero.cs" />

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 public abstract class Enemy
 {
-    private Vector2 position = new Vector2(100, 100);
+    private Vector2 position = new Vector2(0, 0);
     public Vector2 Center
     {
         get
@@ -21,6 +21,30 @@ public abstract class Enemy
         get
         {
             return position;
+        }
+        set
+        {
+            position = value;
+        }
+    }
+    private Vector2 startPosition = new Vector2(0, 0);
+    protected Vector2 StartPosition
+    {
+        get
+        {
+            return startPosition;
+        }
+        set
+        {
+            startPosition = value;
+        }
+    }
+    private Random random = new Random();
+    public Vector2 PositionRandomization
+    {
+        get
+        {
+            return new Vector2(random.Next(0, 800), random.Next(0, 400));
         }
     }
     public float Height
@@ -116,10 +140,6 @@ public abstract class Enemy
         _spriteBatch.Draw(texture, position, Color.White);
     }
 
-    public void setPosition(Vector2 _position) //sets the upper left corner to the given value.
-    {
-        this.position = _position;
-    }
 
     public void runTo(Vector2 _destination) //lets enemy advance towards the given value. enemy will run the same speed in any direction.
     {
@@ -149,6 +169,10 @@ public abstract class Enemy
     {
         position.X = _destination.X - (texture.Width / 2);
         position.Y = _destination.Y - (texture.Height / 2);
+    }
+    public void die()
+    {
+        this.TopLeft = this.StartPosition;
     }
 
     private float calculateXPercentage(Vector2 _destination) //calculates how much percentage of the rectangle from given value to position of enemy is x. is needed for the run command.
