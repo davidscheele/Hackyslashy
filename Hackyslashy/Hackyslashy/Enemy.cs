@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 public abstract class Enemy
 {
@@ -86,7 +87,19 @@ public abstract class Enemy
             texture = value;
         }
     }
-
+    private SoundEffect deathSound;
+    public SoundEffect DeathSound
+    {
+        get
+        {
+            return deathSound;
+        }
+        set
+        {
+            deathSound = value;
+        }
+    }
+    
     private int runSpeed;
     public int RunSpeed
     {
@@ -145,6 +158,7 @@ public abstract class Enemy
     public void LoadContent(ContentManager _contentManager)
     {
         texture = _contentManager.Load<Texture2D>(assetName);
+        deathSound = _contentManager.Load<SoundEffect>("death");
     }
     public void Draw(SpriteBatch _spriteBatch)
     {
@@ -188,6 +202,7 @@ public abstract class Enemy
     public void die()
     {
         this.TopLeft = this.StartPosition;
+        deathSound.Play();
     }
 
     private float calculateXPercentage(Vector2 _destination) //calculates how much percentage of the rectangle from given value to position of enemy is x. is needed for the run command.

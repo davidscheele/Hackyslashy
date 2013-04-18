@@ -13,6 +13,7 @@ public class BigSlime : Enemy
         this.RunSpeed = _speed;
         this.AssetName = "slimeBig";
         this.TopLeft = new Vector2(700, 100);
+        this.StartPosition = this.TopLeft;
 	}
 
     

@@ -64,6 +64,7 @@ namespace Hackyslashy
             heroSprite = new Hero();
             swordSprite = new Sword();
             bigTestSlime = new BigSlime(2);
+            enemyList.Add(bigTestSlime);
             addSlimes(5);
 
 

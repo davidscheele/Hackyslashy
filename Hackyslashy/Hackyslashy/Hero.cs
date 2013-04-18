@@ -79,11 +79,13 @@ public class Hero
     public void LoadContent(ContentManager theContentManager, string theAssetName)
     {
         this.texture = theContentManager.Load<Texture2D>(theAssetName);
+
     }
     public void Draw(SpriteBatch theSpriteBatch)
     {
         theSpriteBatch.Draw(texture, position, Color.White);
         this.Bounds = new Rectangle((int)this.TopLeft.X, (int)this.TopLeft.Y, (int)this.Width, (int)this.Height);
+        
     }
 
     public void clearRunDelay()
