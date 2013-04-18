@@ -11,9 +11,14 @@ public class Hero
         get
         {
             Vector2 _position = position;
-            _position.X = _position.X + (texture.Width / 2);
-            _position.Y = _position.Y + (texture.Height / 2);
+            _position.X = _position.X + (this.Width / 2);
+            _position.Y = _position.Y + (this.Height / 2);
             return _position;
+        }
+        set
+        {
+            position.X = value.X - (this.Width / 2);
+            position.Y = value.Y - (this.Height / 2);
         }
     }
     public Vector2 TopLeft
@@ -73,28 +78,28 @@ public class Hero
         this.runDelayCounter = 0;
     }
 
-    public void runTo(Vector2 touchPosition)
+    public void runTo(Vector2 _destination)
     {
         if (this.runDelayCounter >= 5)
         {
-            float xPercentage = calculateXPercentage(touchPosition);
+            float xPercentage = calculateXPercentage(_destination);
             float yPercentage = 1 - xPercentage;
 
-            if (this.position.X + 25 > touchPosition.X)
+            if (this.Center.X > _destination.X)
             {
-                this.position.X = this.position.X - this.runSpeed * xPercentage;
+                position.X = position.X - (runSpeed * xPercentage);
             }
-            if (this.position.X + 25 < touchPosition.X)
+            if (this.Center.X < _destination.X)
             {
-                this.position.X = this.position.X + this.runSpeed * xPercentage;
+                position.X = position.X + (runSpeed * xPercentage);
             }
-            if (this.position.Y + 25 > touchPosition.Y)
+            if (this.Center.Y > _destination.Y)
             {
-                this.position.Y = this.position.Y - this.runSpeed * yPercentage;
+                position.Y = position.Y - (runSpeed * yPercentage);
             }
-            if (this.position.Y + 25 < touchPosition.Y)
+            if (this.Center.Y < _destination.Y)
             {
-                this.position.Y = this.position.Y + this.runSpeed * yPercentage;
+                position.Y = position.Y + (runSpeed * yPercentage);
             }
 
         }
@@ -105,13 +110,12 @@ public class Hero
 
         //this.position = touchPosition;
     }
-    public void jumpTo(Vector2 _touchPosition)
+    public void jumpTo(Vector2 _destination)
     {
-        this.position.X = _touchPosition.X - 25;
-        this.position.Y = _touchPosition.Y - 25;
+        this.Center = _destination;
     }
 
-    private float calculateXPercentage(Vector2 _touchPosition)
+    private float calculateXPercentage(Vector2 _destination)
     {
 
         double xPerc = 0;
@@ -120,21 +124,21 @@ public class Hero
         double fullRel;
 
 
-        if (this.position.X + 25 > _touchPosition.X)
+        if (this.Center.X > _destination.X)
         {
-            xRel = this.position.X + 25 - _touchPosition.X;
+            xRel = this.Center.X - _destination.X;
         }
-        if (this.position.X + 25 < _touchPosition.X)
+        if (this.Center.X < _destination.X)
         {
-            xRel = _touchPosition.X - this.position.X + 25;
+            xRel = _destination.X - this.Center.X;
         }
-        if (this.position.Y + 25 > _touchPosition.Y)
+        if (this.Center.Y > _destination.Y)
         {
-            yRel = this.position.Y + 25 - _touchPosition.Y;
+            yRel = this.Center.Y - _destination.Y;
         }
-        if (this.position.Y + 25 < _touchPosition.Y)
+        if (this.Center.Y < _destination.Y)
         {
-            yRel = _touchPosition.Y - this.position.Y + 25;
+            yRel = _destination.Y - this.Center.Y;
         }
 
         fullRel = xRel + yRel;

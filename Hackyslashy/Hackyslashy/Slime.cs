@@ -8,11 +8,12 @@ public class Slime : Enemy
     
 
 
-	public Slime()
+	public Slime(Vector2 _position)
 	{
-        this.TopLeft = this.PositionRandomization;
+        //this.TopLeft = this.PositionRandomization;
+        this.TopLeft = _position;
         this.StartPosition = this.TopLeft;
-        this.RunSpeed = 4;
+        this.RunSpeed = 2;
         this.AssetName = "slime";
 	}
 

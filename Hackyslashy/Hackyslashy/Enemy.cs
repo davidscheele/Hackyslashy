@@ -27,6 +27,18 @@ public abstract class Enemy
             position = value;
         }
     }
+    private Rectangle bounds;
+    public Rectangle Bounds
+    {
+        get
+        {
+            return bounds;
+        }
+        set 
+        {
+            bounds = value;
+        }
+    }
     private Vector2 startPosition = new Vector2(0, 0);
     protected Vector2 StartPosition
     {
@@ -39,11 +51,11 @@ public abstract class Enemy
             startPosition = value;
         }
     }
-    private Random random = new Random();
     public Vector2 PositionRandomization
     {
         get
         {
+            Random random = new Random();
             return new Vector2(random.Next(0, 800), random.Next(0, 400));
         }
     }
@@ -127,7 +139,6 @@ public abstract class Enemy
     }
 	public Enemy()
 	{
-        
 
 	}
 
@@ -164,8 +175,15 @@ public abstract class Enemy
             {
                 position.Y = position.Y + (runSpeed * yPercentage);
             }
+
+            if (this.Bounds == null)
+            {
+                this.Bounds = new Rectangle((int)this.TopLeft.X, (int)this.TopLeft.Y, (int)this.Width, (int)this.Height);
+            }
+            this.bounds.X = (int) position.X;
+            this.bounds.Y = (int) position.Y;
     }
-    public void jumpTo(Vector2 _destination) //lets enemy hop to the point of the given value.
+    public void jumpTo(Vector2 _destination) //lets enemy hop to the point of the given value. OLD!!
     {
         position.X = _destination.X - (texture.Width / 2);
         position.Y = _destination.Y - (texture.Height / 2);

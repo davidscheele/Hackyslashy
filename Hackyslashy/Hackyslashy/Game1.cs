@@ -26,7 +26,7 @@ namespace Hackyslashy
         Hero heroSprite; //The Sprite controllable by the player
         Sword swordSprite; //The Sprite connected to the hero sprite
 
-        Enemy testSlime; //A simple testsprite
+        //Enemy testSlime; //A simple testsprite
         Enemy bigTestSlime; //A simply testsprite
 
         Rectangle heroBounds; //invisible boundaries around the hero
@@ -34,10 +34,10 @@ namespace Hackyslashy
 
         SpriteFont debugFont;
         bool touching;
-        String debugString = "0";
-        String intersectString = "0";
-        String enemyRectangleString = "0";
-        String heroRectangleString = "0";
+        String debug01String = "0";
+        String debug02String = "0";
+        String debug03String = "0";
+        String debug04String = "0";
         bool swingdir = true;
 
         List<Enemy> enemyList = new List<Enemy>();
@@ -67,9 +67,9 @@ namespace Hackyslashy
             // TODO: Add your initialization logic here
             heroSprite = new Hero();
             swordSprite = new Sword();
-            testSlime = new Slime();
+            //testSlime = new Slime();
             bigTestSlime = new BigSlime(2);
-            //addSlimes(5);
+            addSlimes(5);
 
 
 
@@ -90,7 +90,7 @@ namespace Hackyslashy
             // TODO: use this.Content to load your game content here
             heroSprite.LoadContent(this.Content, "face");
             swordSprite.LoadContent(this.Content, "sword");
-            testSlime.LoadContent(this.Content);
+            //testSlime.LoadContent(this.Content);
             bigTestSlime.LoadContent(this.Content);
             loadEnemies();
 
@@ -100,11 +100,11 @@ namespace Hackyslashy
                 (int)(heroSprite.TopLeft.Y), 
                 (int)(heroSprite.Width), 
                 (int)(heroSprite.Height));
-            enemyBounds = new Rectangle(
-                (int)(testSlime.TopLeft.X),
-                (int)(testSlime.TopLeft.Y),
-                (int)(testSlime.Width),
-                (int)(testSlime.Height));
+            //enemyBounds = new Rectangle(
+            //    (int)(testSlime.TopLeft.X),
+            //    (int)(testSlime.TopLeft.Y),
+            //    (int)(testSlime.Width),
+            //    (int)(testSlime.Height));
 
             debugFont = Content.Load<SpriteFont>("SpriteFont1");
 
@@ -132,11 +132,13 @@ namespace Hackyslashy
 
             // TODO: Add your update logic here
 
-            updateEnemyBounds(testSlime.TopLeft);
-            enemyRectangleString = enemyBounds.ToString();
-            heroRectangleString = heroBounds.ToString();
 
+            //debug01String = enemyList[0].Bounds.ToString();
+            //debug02String = enemyList[1].Bounds.ToString();
+            //debug03String = enemyList[2].Bounds.ToString();
+            //debug04String = enemyList[3].Bounds.ToString();
 
+            checkIntersect();
 
             TouchPanel.EnabledGestures =
                 GestureType.Tap |
@@ -144,25 +146,18 @@ namespace Hackyslashy
                 GestureType.Flick;
 
             swordSprite.snapTo(heroSprite.Center);
-            testSlime.runTo(heroSprite.Center);
+            //testSlime.runTo(heroSprite.Center);
             bigTestSlime.runTo(heroSprite.Center);
             runEnemies();
 
-
+            
             if (heroBounds.Intersects(enemyBounds))
             {
-                intersectString = "Intersection!";
             }
             else
             {
-                intersectString = "No Intersection";
             }
 
-
-            foreach (Enemy _enemy in enemyList)
-            {
-                _enemy.runTo(heroSprite.Center);
-            }
 
             if (swingdir)
             {
@@ -184,7 +179,6 @@ namespace Hackyslashy
                         break;
                     
                     case(GestureType.Flick):
-                        debugString = gesture.Delta.ToString();
                         swingdir = swordSprite.swingStart(gesture.Delta);
                         break;
                         
@@ -246,9 +240,9 @@ namespace Hackyslashy
         private void addSlimes(int _ammount)
         {
             int ammount = _ammount;
-            while (ammount >= 0)
+            while (ammount > 0)
             {
-                Enemy slime = new Slime();
+                Enemy slime = new Slime(new Vector2(20, ammount * 100));
                 addToEnemyList(slime);
                 ammount--;
             }
@@ -275,6 +269,17 @@ namespace Hackyslashy
                 enemy.runTo(heroSprite.Center);
             }
         }
+        private void checkIntersect()
+        {
+            foreach (Enemy enemy in enemyList)
+            {
+                if (enemy.Bounds.Intersects(heroBounds))
+                {
+                    enemy.die();
+                }
+            }
+
+        }
 
 
 
@@ -291,14 +296,14 @@ namespace Hackyslashy
             spriteBatch.Begin();
             heroSprite.Draw(this.spriteBatch);
             swordSprite.Draw(this.spriteBatch);
-            testSlime.Draw(this.spriteBatch);
+            //testSlime.Draw(this.spriteBatch);
             bigTestSlime.Draw(this.spriteBatch);
             drawEnemies();
             
-            spriteBatch.DrawString(debugFont, debugString, new Vector2(10, 10), Color.Black);
-            spriteBatch.DrawString(debugFont, intersectString, new Vector2(10, 30), Color.Black);
-            spriteBatch.DrawString(debugFont, heroRectangleString, new Vector2(10, 50), Color.Black);
-            spriteBatch.DrawString(debugFont, enemyRectangleString, new Vector2(10, 70), Color.Black);
+            spriteBatch.DrawString(debugFont, debug01String, new Vector2(10, 10), Color.Black);
+            spriteBatch.DrawString(debugFont, debug02String, new Vector2(10, 30), Color.Black);
+            spriteBatch.DrawString(debugFont, debug04String, new Vector2(10, 50), Color.Black);
+            spriteBatch.DrawString(debugFont, debug03String, new Vector2(10, 70), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
