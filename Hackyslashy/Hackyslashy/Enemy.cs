@@ -149,6 +149,7 @@ public abstract class Enemy
     public void Draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, position, Color.White);
+        this.Bounds = new Rectangle((int)this.TopLeft.X, (int)this.TopLeft.Y, (int)this.Width, (int)this.Height);
     }
 
 
@@ -176,10 +177,6 @@ public abstract class Enemy
                 position.Y = position.Y + (runSpeed * yPercentage);
             }
 
-            if (this.Bounds == null)
-            {
-                this.Bounds = new Rectangle((int)this.TopLeft.X, (int)this.TopLeft.Y, (int)this.Width, (int)this.Height);
-            }
             this.bounds.X = (int) position.X;
             this.bounds.Y = (int) position.Y;
     }

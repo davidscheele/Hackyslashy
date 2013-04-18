@@ -28,6 +28,18 @@ public class Hero
             return position;
         }
     }
+    private Rectangle bounds;
+    public Rectangle Bounds
+    {
+        get
+        {
+            return bounds;
+        }
+        set
+        {
+            bounds = value;
+        }
+    }
 
     public Texture2D Texture
     {
@@ -71,6 +83,7 @@ public class Hero
     public void Draw(SpriteBatch theSpriteBatch)
     {
         theSpriteBatch.Draw(texture, position, Color.White);
+        this.Bounds = new Rectangle((int)this.TopLeft.X, (int)this.TopLeft.Y, (int)this.Width, (int)this.Height);
     }
 
     public void clearRunDelay()
@@ -101,7 +114,8 @@ public class Hero
             {
                 position.Y = position.Y + (runSpeed * yPercentage);
             }
-
+            this.bounds.X = (int)position.X;
+            this.bounds.Y = (int)position.Y;
         }
         else
         {
@@ -113,6 +127,8 @@ public class Hero
     public void jumpTo(Vector2 _destination)
     {
         this.Center = _destination;
+        this.bounds.X = (int)position.X;
+        this.bounds.Y = (int)position.Y;
     }
 
     private float calculateXPercentage(Vector2 _destination)

@@ -26,11 +26,7 @@ namespace Hackyslashy
         Hero heroSprite; //The Sprite controllable by the player
         Sword swordSprite; //The Sprite connected to the hero sprite
 
-        //Enemy testSlime; //A simple testsprite
         Enemy bigTestSlime; //A simply testsprite
-
-        Rectangle heroBounds; //invisible boundaries around the hero
-        Rectangle enemyBounds; //invisible boundaries around the enemy
 
         SpriteFont debugFont;
         bool touching;
@@ -67,7 +63,6 @@ namespace Hackyslashy
             // TODO: Add your initialization logic here
             heroSprite = new Hero();
             swordSprite = new Sword();
-            //testSlime = new Slime();
             bigTestSlime = new BigSlime(2);
             addSlimes(5);
 
@@ -90,21 +85,9 @@ namespace Hackyslashy
             // TODO: use this.Content to load your game content here
             heroSprite.LoadContent(this.Content, "face");
             swordSprite.LoadContent(this.Content, "sword");
-            //testSlime.LoadContent(this.Content);
             bigTestSlime.LoadContent(this.Content);
             loadEnemies();
 
-
-            heroBounds = new Rectangle(
-                (int)(heroSprite.TopLeft.X), 
-                (int)(heroSprite.TopLeft.Y), 
-                (int)(heroSprite.Width), 
-                (int)(heroSprite.Height));
-            //enemyBounds = new Rectangle(
-            //    (int)(testSlime.TopLeft.X),
-            //    (int)(testSlime.TopLeft.Y),
-            //    (int)(testSlime.Width),
-            //    (int)(testSlime.Height));
 
             debugFont = Content.Load<SpriteFont>("SpriteFont1");
 
@@ -146,17 +129,8 @@ namespace Hackyslashy
                 GestureType.Flick;
 
             swordSprite.snapTo(heroSprite.Center);
-            //testSlime.runTo(heroSprite.Center);
             bigTestSlime.runTo(heroSprite.Center);
             runEnemies();
-
-            
-            if (heroBounds.Intersects(enemyBounds))
-            {
-            }
-            else
-            {
-            }
 
 
             if (swingdir)
@@ -212,23 +186,10 @@ namespace Hackyslashy
 
 
 
-        private void updateHeroBounds(Vector2 _position)
-        {
-            heroBounds.X = (int)_position.X;
-            heroBounds.Y = (int)_position.Y;
-
-        }
-        private void updateEnemyBounds(Vector2 _position)
-        {
-            enemyBounds.X = (int)_position.X;
-            enemyBounds.Y = (int)_position.Y;
-
-        }
 
         private void HandleBoardTouch(TouchLocation touch)
         {
             heroSprite.runTo(touch.Position);
-            updateHeroBounds(heroSprite.Center);
         }
         private void HandleResetTouch(TouchLocation touch)
         {
@@ -273,7 +234,7 @@ namespace Hackyslashy
         {
             foreach (Enemy enemy in enemyList)
             {
-                if (enemy.Bounds.Intersects(heroBounds))
+                if (enemy.Bounds.Intersects(heroSprite.Bounds))
                 {
                     enemy.die();
                 }
@@ -296,7 +257,6 @@ namespace Hackyslashy
             spriteBatch.Begin();
             heroSprite.Draw(this.spriteBatch);
             swordSprite.Draw(this.spriteBatch);
-            //testSlime.Draw(this.spriteBatch);
             bigTestSlime.Draw(this.spriteBatch);
             drawEnemies();
             
